@@ -1,0 +1,43 @@
+root = true
+
+# ─── Все файлы ─────────────────────────────────────────────────
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# ─── Python ────────────────────────────────────────────────────
+[*.py]
+indent_style = space
+indent_size = 4
+max_line_length = 88
+
+# ─── JavaScript / Vue / TypeScript ─────────────────────────────
+[*.{js,mjs,cjs,ts,vue}]
+indent_style = space
+indent_size = 2
+
+# ─── HTML / CSS / SCSS ─────────────────────────────────────────
+[*.{html,css,scss,sass}]
+indent_style = space
+indent_size = 2
+
+# ─── JSON / YAML ───────────────────────────────────────────────
+[*.{json,yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# ─── Markdown ──────────────────────────────────────────────────
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# ─── Docker / Shell ────────────────────────────────────────────
+[Dockerfile*]
+indent_style = space
+indent_size = 4
+
+[*.sh]
+indent_style = space
+indent_size = 2

@@ -16,8 +16,7 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 
 # Application definition
-
-INSTALLED_APPS = {
+INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -25,19 +24,18 @@ INSTALLED_APPS = {
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    #     External Apps
-    'rest-framework',
+    # External Apps
+    'rest_framework',
     'rest_framework_simplejwt',
     "corsheaders",
 
-    #     Local Apps
+    # Local Apps (указываем полные пути к конфигам приложений)
     'apps.devices.apps.DevicesConfig',
-    'apps.manufacturer.apps.ManufacturerConfig',
+    'apps.manufacturers.apps.ManufacturersConfig',  # Исправлено имя и добавлен конфиг
     'apps.recyclers.apps.RecyclersConfig',
     'apps.users.apps.UsersConfig',
     'apps.notifications.apps.NotificationsConfig',
-}
-
+]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -98,7 +96,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 LANGUAGE_CODE = "ru-ru"
-TIME_ZONE = "Asia/Astana"
+TIME_ZONE = "Asia/Almaty"
 USE_I18N = True
 USE_TZ = True
 
@@ -145,4 +143,5 @@ TELEGRAM_BOT_TOKEN = env("TELEGRAM_BOT_TOKEN")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Кастомный модель пользователей
-AUTH_USER_MODEL = 'apps_users.User'
+AUTH_USER_MODEL = 'users.User'
+

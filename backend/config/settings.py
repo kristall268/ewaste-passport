@@ -2,17 +2,16 @@ import environ
 from pathlib import Path
 from datetime import timedelta
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(DEBUG=(bool, False))
 
-environ.Env.read_env(env_file=str(BASE_DIR / '.env'))
+environ.Env.read_env(env_file=str(BASE_DIR / ".env"))
 SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 
 # Application definition
@@ -23,18 +22,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
+    "django.contrib.gis",
     # External Apps
-    'rest_framework',
-    'rest_framework_simplejwt',
+    "rest_framework",
+    "rest_framework_simplejwt",
     "corsheaders",
-
     # Local Apps (указываем полные пути к конфигам приложений)
-    'apps.devices.apps.DevicesConfig',
-    'apps.manufacturers.apps.ManufacturersConfig',  # Исправлено имя и добавлен конфиг
-    'apps.recyclers.apps.RecyclersConfig',
-    'apps.users.apps.UsersConfig',
-    'apps.notifications.apps.NotificationsConfig',
+    "apps.devices.apps.DevicesConfig",
+    "apps.manufacturers.apps.ManufacturersConfig",  # Исправлено имя и добавлен конфиг
+    "apps.recyclers.apps.RecyclersConfig",
+    "apps.users.apps.UsersConfig",
+    "apps.notifications.apps.NotificationsConfig",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -52,11 +50,11 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [ BASE_DIR / 'templates' ],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
-                'django.template.context_processors.debug',
+                "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
@@ -72,7 +70,10 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    "default" : env.db("DATABASE_URL"),
+    "default": {
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "NAME": env("POSTGRES_DB"),
+    }
 }
 
 
@@ -112,9 +113,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
-    )
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
 
 SIMPLE_JWT = {
@@ -128,8 +127,8 @@ SIMPLE_JWT = {
 }
 # CORS Settings (чтобы Vue-фронтенд мог достучаться до API)
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173", # Local Vite Server
-    "http://127.0.0.1:5173"
+    "http://localhost:5173",  # Local Vite Server
+    "http://127.0.0.1:5173",
 ]
 # Настройки очередей задач Celery (через Redis)
 CELERY_BROKER_URL = env("REDIS_URL")
@@ -143,5 +142,4 @@ TELEGRAM_BOT_TOKEN = env("TELEGRAM_BOT_TOKEN")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Кастомный модель пользователей
-AUTH_USER_MODEL = 'users.User'
-
+AUTH_USER_MODEL = "users.User"

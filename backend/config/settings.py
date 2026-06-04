@@ -68,13 +68,8 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": env("POSTGRES_DB"),
-    }
-}
+environ.Env.DB_SCHEMES["postgis"] = "django.contrib.gis.db.backends.postgis"
+DATABASES = {"default": env.db("DATABASE_URL")}
 
 
 # Password validation

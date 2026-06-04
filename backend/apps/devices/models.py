@@ -48,6 +48,29 @@ class DeviceModel(models.Model):
         return f"{self.name} ({self.manufacturer.name})"
 
 
+class Batch(models.Model):
+    """
+    Партия экземпляров одной модели устройства.
+    Создаётся при загрузке серийных номеров производителем.
+    """
+
+    device_model = models.ForeignKey(
+        DeviceModel,
+        on_delete=models.CASCADE,
+        related_name="batches",
+        verbose_name="Модель устройства",
+    )
+    manufactured_at = models.DateField(verbose_name="Дата производства партии")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Партия"
+        verbose_name_plural = "Партии"
+
+    def __str__(self):
+        return f"Партия #{self.id} — {self.device_model.name}"
+
+
 class DeviceUnit(models.Model):
     """
     Конкретный физический экземпляр устройства.
@@ -70,6 +93,9 @@ class DeviceUnit(models.Model):
     # ДОБАВИТЬ: дата производства конкретного экземпляра
     manufactured_at = models.DateField(
         null=True, blank=True, verbose_name="Дата производства"
+    )
+    batch = models.ForeignKey(
+        Batch, on_delete=models.CASCADE, related_name="units", verbose_name="Партия"
     )
 
     class Meta:
